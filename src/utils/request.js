@@ -10,7 +10,7 @@ service.interceptors.request.use(
   config => {
     // 添加请求头等前置处理
     // config.headers['Authorization'] = 'Bearer' + ' ' + localStorage.getItem('token')
-    console.log( 1 );
+    // console.log( 1 );
     return config;
   },
   error => {
@@ -24,7 +24,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response) => {
     // 响应后处理
-    console.log( 2 );
+    // console.log( 2 );
       return response;
   },
   error => {

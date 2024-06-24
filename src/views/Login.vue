@@ -1,7 +1,7 @@
 <template>
   <div class="shell">
     <div class="container a-container " id="a-container" :class="showLogin ? 'is-tx' :'is-hidden' ">
-      <form class="form" id="a-form" @submit.prevent="register">
+      <form class="form" id="a-form" @submit.prevent="submitRegister">
         <h2 class="form_title title">创建账号</h2>
         <div class="form_icons">
           <!-- Icons could go here -->
@@ -9,18 +9,18 @@
         <input type="text" class="form_input" placeholder="Name" v-model="register.userName">
         <input type="text" class="form_input" placeholder="Email" v-model="register.userEmail">
         <input type="password" class="form_input" placeholder="Password" v-model="register.userPassword">
-        <button class="form_button button submit" @click="submitRegister">注册</button>
+        <button class="form_button button submit" type="subnit">注册</button>
       </form>
     </div>
 
     <div class="container b-container" id="b-container" :class="!showLogin ? 'is-txl is-z' :'is-hidden'" >
-      <form class="form" id="b-form" @submit.prevent="login" :rules="rules">
+      <form class="form" id="b-form" @submit.prevent="submitLogin">
         <h2 class="form_title title">登入账号</h2>
-        <span class="form_span">选择登录方式或电子邮箱登录</span>
+        <!-- <span class="form_span">选择登录方式或电子邮箱登录</span> -->
         <input type="text" class="form_input" placeholder="Email" v-model="login.userEmail">
         <input type="password" class="form_input" placeholder="Password" v-model="login.userPassword">
         <a class="form_link">忘记密码？</a>
-        <button class="form_button button submit" @click="submitLogin">登录</button>
+        <button class="form_button button submit" type="submit">登录</button>
       </form>
     </div>
     
@@ -64,23 +64,38 @@ export default {
   },
   methods: {
     submitLogin(){
-      request.post('/login',this.login).then(res =>{
-        console.log(res);
-      })
-      // 对响应信息进行判断
-				if (response.status===200){
-					this.$message({
-						type:"success",
-						message:"登录成功"
-					});
+      try {
+        // 发送请求
+        request.post('/login',this.login).then(response =>{
+          // console.log(response);
+          // 对响应信息进行判断
+				  if (response.data.code == 200){
 					// 跳转
-					// this.$router.push({name:"page"})
-				}
+					  this.$router.push({name:"page"})
+				  }else{
+            alert('邮箱或密码错误，登录失败，请重新登录')
+          }
+        })
+      } catch (error) {
+        console.error('登录失败:', error);
+        alert('登录过程中发生错误');
+      }
     },  
     submitRegister() {
-      request.post('/register',this.register).then(res =>{
-        console.log(res);
-      })
+      try {
+        // 发送请求
+        request.post('/register',this.register).then(response =>{
+        // console.log(response);
+        if(response.data.code == 200){
+          alert('注册成功，去登入账号来进入奇妙世界吧')
+        }else{
+          alert('注册失败，邮箱和用户名已注册')
+        }
+        })
+      } catch (error) {
+        // console.error('登录失败:', error);
+        alert('注册成功失败，请重新输入')
+      }
     },
     toggleForm() {
       this.showLogin = !this.showLogin;
