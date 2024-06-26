@@ -7,7 +7,14 @@
           <!-- Icons could go here -->
         </div>
         <input type="text" class="form_input" placeholder="Name" v-model="register.userName">
-        <input type="text" class="form_input" placeholder="Email" v-model="register.userEmail">
+        <!-- <input type="text" class="form_input" placeholder="Role" v-model="register.role"> -->
+         <!-- 角色下拉选择框 -->
+  <select class="form_input" v-model="register.role">
+    <!-- <option disabled value="">请选择角色</option> -->
+    <option value="admin">管理员</option>
+    <option value="tearcher">老师</option>
+    <option value="student">学生</option>
+  </select>
         <input type="password" class="form_input" placeholder="Password" v-model="register.userPassword">
         <button class="form_button button submit" type="subnit">注册</button>
       </form>
@@ -17,7 +24,7 @@
       <form class="form" id="b-form" @submit.prevent="submitLogin">
         <h2 class="form_title title">登入账号</h2>
         <!-- <span class="form_span">选择登录方式或电子邮箱登录</span> -->
-        <input type="text" class="form_input" placeholder="Email" v-model="login.userEmail">
+        <input type="text" class="form_input" placeholder="Name" v-model="login.userName">
         <input type="password" class="form_input" placeholder="Password" v-model="login.userPassword">
         <a class="form_link">忘记密码？</a>
         <button class="form_button button submit" type="submit">登录</button>
@@ -52,11 +59,11 @@ export default {
   data() {
     return {
       login:{
-        userEmail: '',
+        userName: '',
         userPassword: ''
       },register:{
         userName: '',
-        userEmail: '',
+        role: '',
         userPassword: ''
       },
       showLogin: true
@@ -66,14 +73,14 @@ export default {
     submitLogin(){
       try {
         // 发送请求
-        request.post('/login',this.login).then(response =>{
+        request.post('/user/login',this.login).then(response =>{
           // console.log(response);
           // 对响应信息进行判断
-				  if (response.data.code == 200){
+				  if (response.code == 200){
 					// 跳转
-					  this.$router.push({name:"page"})
+					  this.$router.push({name:"main"})
 				  }else{
-            alert('邮箱或密码错误，登录失败，请重新登录')
+            alert('用户名或密码错误，登录失败，请重新登录')
           }
         })
       } catch (error) {
@@ -84,7 +91,7 @@ export default {
     submitRegister() {
       try {
         // 发送请求
-        request.post('/register',this.register).then(response =>{
+        request.post('/user/register',this.register).then(response =>{
         // console.log(response);
         if(response.data.code == 200){
           alert('注册成功，去登入账号来进入奇妙世界吧')
