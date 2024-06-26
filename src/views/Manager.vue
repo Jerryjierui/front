@@ -16,7 +16,7 @@
                       <el-icon><UserFilled /></el-icon>
                       <span>用户列表</span>
                     </template>
-                        <el-menu-item index="1-1">用户列表</el-menu-item>
+                        <el-menu-item index="home">用户列表</el-menu-item>
                         <el-menu-item index="1-2">用户添加</el-menu-item>
                   </el-sub-menu>
 
@@ -25,7 +25,7 @@
                       <el-icon><Reading /></el-icon>                    
                       <span>教材管理</span>
                     </template>
-                      <el-menu-item index="2-1">教材信息</el-menu-item>
+                      <el-menu-item index="book">教材信息</el-menu-item>
                       <el-menu-item index="2-2">教材添加</el-menu-item>
                       <el-menu-item index="2-3">类别管理</el-menu-item>
                       <el-menu-item index="2-4">教材入库管理</el-menu-item>
@@ -70,13 +70,13 @@
             <el-dropdown :hide-on-click="false">
               <div style="display: flex; align-items: center; cursor: pointer">
               <img src="../assets/logo.png" alt="" style="width: 40px; height: 40px; margin: 0 5px">
-            <span>管理员</span>
+            <span>{{ user.name }}</span>
             </div>
             <template #dropdown>
             <el-dropdown-menu>
             <el-dropdown-item>个人信息</el-dropdown-item>
             <el-dropdown-item>修改密码</el-dropdown-item>
-            <el-dropdown-item>退出登录</el-dropdown-item>
+            <el-dropdown-item @click.native="logou">退出登录</el-dropdown-item>
             </el-dropdown-menu>
             </template>
             </el-dropdown>
@@ -85,42 +85,7 @@
             </el-header>
             <!--        主体区域-->
         <el-main>
-          <div style="box-shadow: 0 0 10px rgba(0,0,0,.1); padding: 10px 20px; border-radius: 5px; margin-bottom: 10px">
-            早安，骚年，祝你开心每一天！
-          </div>
-          <div style="display: flex;">
-          <el-card style="width: 50%">
-            <div slot="header" class="clearfix">
-              <span>LV牌教材征订</span>
-            </div>
-            <el-divider />
-            <div>
-              信念是一种无坚不摧的力量，当你坚信自己能成功时，你必能成功！加油LV；
-              <div style="margin-top: 20px">
-                <div style="margin: 10px 0"><strong>主题色</strong></div>
-                <el-button type="primary">按钮</el-button>
-                <el-button type="success">按钮</el-button>
-                <el-button type="warning">按钮</el-button>
-                <el-button type="danger">按钮</el-button>
-                <el-button type="info">按钮</el-button>
-              </div>
-            </div>
-              
-          </el-card>
-          <el-card style="width: 50%">
-            <div slot="header" class="clearfix">
-              <span>渲染用户数据</span>
-            </div>
-            <div>
-              <el-table :data="user">
-                <el-table-column label="Id" prop="id"></el-table-column>
-                <el-table-column label="用户名" prop="userName"></el-table-column>
-                <el-table-column label="角色" prop="role"></el-table-column>
-                <el-table-column label="地址" prop="address"></el-table-column>
-              </el-table>
-            </div>
-          </el-card>
-        </div>
+          <router-view />
         </el-main>
             
       </el-container>
@@ -139,12 +104,16 @@ export default {
     }
   },
   mounted(){//页面加载完成之后加载出来
-    request.get('/page/selectAll').then(response =>{
-      // console.log(response);
-      this.user = response.data;
-    })
-  },
+    request.get('/selectAll').then(response =>{
+    // console.log(response);
+    this.user = response.data;
+  })
+},
   methods: {
+    logou(){
+      localStorage.removeItem('honey-user') //清除当前的token
+      this.$router.push('/login')
+    },
     handleFull() {
       document.documentElement.requestFullscreen()
     },

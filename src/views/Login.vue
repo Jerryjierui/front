@@ -73,35 +73,37 @@ export default {
     submitLogin(){
       try {
         // 发送请求
-        request.post('/user/login',this.login).then(response =>{
+        request.post('/login',this.login).then(res =>{
           // console.log(response);
           // 对响应信息进行判断
-				  if (response.code == 200){
-					// 跳转
-					  this.$router.push({name:"main"})
+				  if (res.code == 200){
+					// 跳转 
+            this.$message.success('登录成功')
+					  this.$router.push("main")
+            localStorage.setItem("honey-user", JSON.stringify(res.data))  // 存储用户数据
 				  }else{
-            alert('用户名或密码错误，登录失败，请重新登录')
+            this.$message.error('用户名或密码错误，登录失败，请重新登录')
           }
         })
       } catch (error) {
-        console.error('登录失败:', error);
-        alert('登录过程中发生错误');
+        // console.error('登录失败:', error);
+        this.$message.success('登录过程中发生错误')
       }
     },  
     submitRegister() {
       try {
         // 发送请求
-        request.post('/user/register',this.register).then(response =>{
+        request.post('/register',this.register).then(response =>{
         // console.log(response);
-        if(response.data.code == 200){
-          alert('注册成功，去登入账号来进入奇妙世界吧')
+        if(response.code == 200){
+          this.$message.success('注册成功，去登入账号来进入奇妙世界吧')
         }else{
-          alert('注册失败，邮箱和用户名已注册')
+          this.$message.error('注册失败，邮箱和用户名已注册')
         }
         })
       } catch (error) {
         // console.error('登录失败:', error);
-        alert('注册成功失败，请重新输入')
+        this.$message.error('注册成功失败，请重新输入')
       }
     },
     toggleForm() {
