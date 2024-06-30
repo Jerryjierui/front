@@ -10,14 +10,12 @@
                 <el-menu router :collapse="isCollapse" :collapse-transition="false" background-color="#001529"
                   active-text-color="#fff" text-color="rgba(255, 255, 255, 0.65)" :default-active="$route.path"
                   style="border: none">
-                    <el-sub-menu index="/">
+                    <el-sub-menu index="1">
                     <template #title>
-                      <i class="el-icon-s-home"></i>
-                      <el-icon><UserFilled /></el-icon>
-                      <span>用户列表</span>
+                      <el-icon><House /></el-icon>
+                      <span>博昊教材</span>
                     </template>
-                        <el-menu-item index="home">用户列表</el-menu-item>
-                        <el-menu-item index="1-2">用户添加</el-menu-item>
+                        <el-menu-item index="home">首页</el-menu-item>
                   </el-sub-menu>
 
                 <el-sub-menu index="2">
@@ -25,32 +23,38 @@
                       <el-icon><Reading /></el-icon>                    
                       <span>教材管理</span>
                     </template>
-                      <el-menu-item index="book">教材信息</el-menu-item>
-                      <el-menu-item index="2-2">教材添加</el-menu-item>
-                      <el-menu-item index="2-3">类别管理</el-menu-item>
-                      <el-menu-item index="2-4">教材入库管理</el-menu-item>
-                      <el-menu-item index="2-5">样书申请管理</el-menu-item>
-                      <el-menu-item index="2-6">教材购买管理</el-menu-item>
-                      <el-menu-item index="2-7">通知公告管理</el-menu-item>
+                      <el-menu-item index="bookManager">教材信息</el-menu-item>
+                      <el-menu-item index="bookAdd">教材添加</el-menu-item>
+                      <el-menu-item index="bookClassify">教材分类</el-menu-item>
                   </el-sub-menu>
 
                   <el-sub-menu index="3">
                     <template #title>
                         <el-icon><User /></el-icon>
-                        <span>权限管理</span>
+                        <span>订单管理</span>
                     </template>
-                        <el-menu-item index="3-1">角色管理</el-menu-item>
-                        <el-menu-item index="3-2">角色添加</el-menu-item>
+                        <el-menu-item index="orderManager">订单信息</el-menu-item>
+                        <el-menu-item index="orders">订单统计</el-menu-item>
                   </el-sub-menu>
 
-                <el-sub-menu index="4">
+                  <el-sub-menu index="4">
                     <template #title>
                         <el-icon><location /></el-icon>
                         <span>信息管理</span>
                     </template>
-                      <el-menu-item index="4-1">学生管理</el-menu-item>
-                      <el-menu-item index="4-2">教师管理</el-menu-item>
-                      <el-menu-item index="4-3">个人信息修改</el-menu-item>
+                      <el-menu-item index="student">学生信息</el-menu-item>
+                      <el-menu-item index="teacher">教师信息</el-menu-item>
+                      <el-menu-item index="person">个人信息</el-menu-item>
+                  </el-sub-menu>
+
+                <el-sub-menu index="5">
+                    <template #title>
+                        <el-icon><location /></el-icon>
+                        <span>关于本系统</span>
+                    </template>
+                      <el-menu-item index="usehand">使用手册</el-menu-item>
+                      <el-menu-item index="problem">常见问题</el-menu-item>
+                      <el-menu-item index="contact">联系与支持</el-menu-item>
                   </el-sub-menu>
                 </el-menu>
 
@@ -61,8 +65,8 @@
                 <!-- <i :class="collapseIcon" @click="handleCollapse" style="font-size: 26px"></i> -->
                 <el-icon @click="handleCollapse"><Expand /></el-icon>
                 <el-breadcrumb separator="/" style="margin-left: 20px">
-                <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                <el-breadcrumb-item :to="{ path: '/' }">课程管理</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: 'home' }">首页</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: $route.path }">{{ $route.meta.name }}</el-breadcrumb-item>
                 </el-breadcrumb>
 
               <div style="flex: 1; display: flex; justify-content: flex-end; align-items: center">
@@ -74,8 +78,8 @@
             </div>
             <template #dropdown>
             <el-dropdown-menu>
-            <el-dropdown-item>个人信息</el-dropdown-item>
-            <el-dropdown-item>修改密码</el-dropdown-item>
+            <el-dropdown-item @click.native="$router.push('person')" >个人信息</el-dropdown-item>
+            <el-dropdown-item @click.native="$router.push('password')">修改密码</el-dropdown-item>
             <el-dropdown-item @click.native="logou">退出登录</el-dropdown-item>
             </el-dropdown-menu>
             </template>

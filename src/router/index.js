@@ -28,8 +28,12 @@ const router = createRouter({
       component: () => import('../views/Manager.vue'),
       redirect: '/manager/home',  //重定向
       children: [
-        {path: 'home',name: 'Home',component: () => import('../views/manager/Home.vue')},
-        {path: 'book',name: 'Book',component: () => import('../views/manager/Book.vue')},
+        {path: 'home',name: 'Home', meta:{name:'首页'},component: () => import('../views/manager/Home.vue')},
+        {path: 'bookManager',name: 'BookManager',meta:{name:'教材信息'},component: () => import('../views/manager/BookManager.vue')},
+        {path: 'student',name: 'Student',meta:{name:'学生信息'},component: () => import('../views/manager/Student.vue')},
+        {path: 'teacher',name: 'Teacher',meta:{name:'教师信息'},component: () => import('../views/manager/Teacher.vue')},
+        {path: 'person',name: 'Person',meta:{name:'个人信息'},component: () => import('../views/manager/Person.vue')},
+        {path: 'password',name: 'password',meta:{name:'修改密码'},component: () => import('../views/manager/Password.vue')}
       ]
     },
     {

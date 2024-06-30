@@ -79,7 +79,7 @@ export default {
 				  if (res.code == 200){
 					// 跳转 
             this.$message.success('登录成功')
-					  this.$router.push("main")
+					  this.$router.push("manager")
             localStorage.setItem("honey-user", JSON.stringify(res.data))  // 存储用户数据
 				  }else{
             this.$message.error('用户名或密码错误，登录失败，请重新登录')
