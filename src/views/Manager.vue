@@ -24,8 +24,7 @@
                       <span>教材管理</span>
                     </template>
                       <el-menu-item index="bookManager">教材信息</el-menu-item>
-                      <el-menu-item index="bookAdd">教材添加</el-menu-item>
-                      <el-menu-item index="bookClassify">教材分类</el-menu-item>
+                      <el-menu-item index="bookAdd" v-if="role == 'admin' ">教材添加</el-menu-item>
                   </el-sub-menu>
 
                   <el-sub-menu index="3">
@@ -33,8 +32,9 @@
                         <el-icon><User /></el-icon>
                         <span>订单管理</span>
                     </template>
-                        <el-menu-item index="orderManager">订单信息</el-menu-item>
-                        <el-menu-item index="orders">订单统计</el-menu-item>
+                        <el-menu-item index="personOrderManager">个人订单信息</el-menu-item>
+                        <el-menu-item index="orderManager" v-if="role == 'admin' ">订单管理</el-menu-item>
+                        <el-menu-item index="orders" v-if="role == 'admin' ">订单统计</el-menu-item>
                   </el-sub-menu>
 
                   <el-sub-menu index="4">
@@ -42,8 +42,8 @@
                         <el-icon><location /></el-icon>
                         <span>信息管理</span>
                     </template>
-                      <el-menu-item index="student">学生信息</el-menu-item>
-                      <el-menu-item index="teacher">教师信息</el-menu-item>
+                      <el-menu-item index="student" v-if="role != 'student' ">学生信息</el-menu-item>
+                      <el-menu-item index="teacher" v-if="role == 'admin' ">教师信息</el-menu-item>
                       <el-menu-item index="person">个人信息</el-menu-item>
                   </el-sub-menu>
 
@@ -73,8 +73,8 @@
                 <el-icon style="font-size: 26px" @click="handleFull"><FullScreen /></el-icon>
             <el-dropdown :hide-on-click="false">
               <div style="display: flex; align-items: center; cursor: pointer">
-              <img src="../assets/logo.png" alt="" style="width: 40px; height: 40px; margin: 0 5px">
-            <span>{{ user.name }}</span>
+              <img :src="user.userAvatar" alt="user.userAvatar" style="width: 40px; height: 40px; margin: 0 5px">
+            <span>{{ user.userName }}</span>
             </div>
             <template #dropdown>
             <el-dropdown-menu>
@@ -89,7 +89,7 @@
             </el-header>
             <!--        主体区域-->
         <el-main>
-          <router-view />
+          <router-view @update:user="updateUser"/>
         </el-main>
             
       </el-container>
@@ -97,23 +97,27 @@
     </div>
 </template>
 <script>
-import request from '@/utils/request'
 export default {
   data() {
     return {
       isCollapse: false,  // 不收缩
       asideWidth: '200px',
       collapseIcon: 'el-icon-s-fold',
-      user:[]
+      role:"",
+      user: JSON.parse(localStorage.getItem('honey-user'))
     }
   },
-  mounted(){//页面加载完成之后加载出来
-    request.get('/selectAll').then(response =>{
-    // console.log(response);
-    this.user = response.data;
-  })
+  mounted(){
+  this.fetchUserData();
 },
   methods: {
+    updateUser(user){
+      this.user = user
+    },
+    fetchUserData(){
+      this.role = this.user.role;
+      // console.log(this.role);
+    },
     logou(){
       localStorage.removeItem('honey-user') //清除当前的token
       this.$router.push('/login')

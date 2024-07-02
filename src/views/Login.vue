@@ -11,7 +11,6 @@
          <!-- 角色下拉选择框 -->
   <select class="form_input" v-model="register.role">
     <!-- <option disabled value="">请选择角色</option> -->
-    <option value="admin">管理员</option>
     <option value="tearcher">老师</option>
     <option value="student">学生</option>
   </select>
