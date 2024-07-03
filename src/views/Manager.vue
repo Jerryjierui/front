@@ -54,7 +54,7 @@
                     </template>
                       <el-menu-item index="usehand">使用手册</el-menu-item>
                       <el-menu-item index="problem">常见问题</el-menu-item>
-                      <el-menu-item index="contact">联系与支持</el-menu-item>
+                      <el-menu-item index="homr">联系与支持</el-menu-item>
                   </el-sub-menu>
                 </el-menu>
 

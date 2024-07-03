@@ -25,7 +25,7 @@
         <!-- <span class="form_span">选择登录方式或电子邮箱登录</span> -->
         <input type="text" class="form_input" placeholder="Name" v-model="login.userName">
         <input type="password" class="form_input" placeholder="Password" v-model="login.userPassword">
-        <a class="form_link">忘记密码？</a>
+        <a class="form_link" @click="$router.push('/forgot-password')">忘记密码？</a>
         <button class="form_button button submit" type="submit">登录</button>
       </form>
     </div>
@@ -46,7 +46,24 @@
         <button class="switch_button button switch-btn" @click="toggleForm">注册</button>
       </div>
     </div>
+
+    <div v-if="showForgotPasswordModal" class="forgot-password-modal">
+      <div class="modal-content">
+        <span class="close" @click="closeForgotPassword">&times;</span>
+        <h2>重置密码</h2>
+        <p>请验证你的手机号。</p>
+        <input type="text" v-model="userPhone" placeholder="输入手机号">
+        <p>输入新密码。</p>
+        <input type="password" v-model="newPassword" placeholder="新密码">
+        <p>确认新密码。</p>
+        <input type="password" v-model="confirmPassword" placeholder="确认新密码">
+        <button @click="resetPassword">重置密码</button>
+      </div>
+    </div>
+
   </div>
+
+
 </template>
 
 <script>
@@ -65,10 +82,20 @@ export default {
         role: '',
         userPassword: ''
       },
-      showLogin: true
+      showLogin: true,
+      showForgotPasswordModal: false,
+      userPhone: '',
+      newPassword: '',
+      confirmPassword: ''
     };
   },
   methods: {
+    toggleForgotPassword() {
+      this.showForgotPasswordModal = true;
+    },
+    closeForgotPassword() {
+      this.showForgotPasswordModal = false;
+    },
     submitLogin(){
       try {
         // 发送请求

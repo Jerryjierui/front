@@ -38,11 +38,16 @@ const router = createRouter({
         {path: 'bookAdd',name: 'BookAdd',meta:{name:'教材添加'},component: () => import('../views/manager/BookAdd.vue')},
         {path: 'orderManager',name: 'OrderManager',meta:{name:'订单管理'},component: () => import('../views/manager/OrderManager.vue')},
         {path: 'personOrderManager',name: 'PersonOrderManager',meta:{name:'个人订单管理'},component: () => import('../views/manager/PersonOrderManager.vue')},
-
+        {path: 'homr',name: 'Homr',meta:{name:'系统评价'}, component: () => import('../views/manager/homr.vue')},
 
 
 
       ]
+    },
+    {
+      path: '/forgot-password', // 使用新的捕捉所有路由的语法
+      name: 'ForgotPassword',
+      component: () => import('../views/ForgotPassword.vue')
     },
     {
       path: '/:pathMatch(.*)*', // 使用新的捕捉所有路由的语法
